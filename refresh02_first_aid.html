@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>רענון 02 — משהו לא בסדר עם הנשימה</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f4f6f8;color:#202a33;font-family:Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:auto;padding:16px}.card{background:#fff;border-radius:18px;padding:22px;margin:14px 0;box-shadow:0 3px 14px rgba(0,0,0,.08)}
+h1{margin:0 0 8px;font-size:28px}h2{font-size:21px}.muted{color:#65727d}.case{background:#f7f8fa;border-right:5px solid #7b8794;padding:16px;border-radius:10px;margin:14px 0}
+.choice{width:100%;text-align:right;background:#fff;border:2px solid #d8dee4;border-radius:12px;padding:13px;margin:8px 0;font-size:17px;cursor:pointer}
+.choice.correct{border-color:#2e8b57;background:#eaf7ef}.choice.wrong{border-color:#c43d3d;background:#fdecec}.choice:disabled{cursor:default}
+.feedback{display:none;padding:12px;border-radius:10px;margin-top:12px;font-weight:bold}.feedback.show{display:block}.ok{background:#eaf7ef;color:#216b42}.bad{background:#fdecec;color:#9b2929}
+.next,.start{width:100%;padding:14px;border:0;border-radius:12px;background:#34495a;color:#fff;font-size:17px;cursor:pointer}.next{display:none;margin-top:14px}.next.show{display:block}
+.progress{color:#687681;font-size:14px}.score{display:flex;gap:10px;flex-wrap:wrap}.score div{background:#f1f3f5;padding:10px 14px;border-radius:10px;font-weight:bold}
+.wrong{border-right:4px solid #c43d3d;background:#fff6f6;padding:10px;margin:10px 0;border-radius:8px}.hidden{display:none}
+li{margin:8px 0}
+</style>
+</head>
+<body><div class="wrap">
+
+<section class="card" id="intro">
+<h1>🩹 רענון 02 — משהו לא בסדר עם הנשימה</h1>
+<p class="muted">רענון קצר, מבוסס אירועים, לעובדי הצוות.</p>
+<p>ברענון הזה תפגשו שני אירועים שונים שבהם אדם מתקשה לנשום. בכל אירוע תצטרכו לקבל כמה החלטות בדרך.</p>
+<p>אם טעיתם — האירוע לא נעצר. תקבלו מיד סימון של נכון/לא נכון, אבל את ההסבר המלא תקבלו בסיום.</p>
+<p class="muted">הרענון אינו מחליף הדרכת עזרה ראשונה מקצועית או הנחיות של גורמי החירום.</p>
+<button class="start" onclick="start()">מתחילים</button>
+</section>
+
+<section class="card hidden" id="game">
+<div class="progress" id="progress"></div>
+<div class="case" id="story"></div><div id="question"></div><div id="choices"></div>
+<div id="feedback" class="feedback"></div><button id="next" class="next" onclick="nextStep()">המשך</button>
+</section>
+
+<section class="card hidden" id="summary">
+<h2>סיכום הרענון</h2><div class="score"><div id="correctScore"></div><div id="wrongScore"></div></div>
+<div id="debrief"></div>
+<h3>מה לקחת מהאירוע?</h3>
+<ul>
+<li>בחסימת נתיב אוויר חשוב להבחין בין אדם שעדיין מסוגל להשתעל לבין חסימה חמורה.</li>
+<li>בחסימה חמורה אצל אדם בהכרה פועלים לפי רצף הפעולות שנלמד בהדרכת העזרה הראשונה.</li>
+<li>קושי נשימתי פתאומי יכול להופיע גם במצבים אחרים, כמו תגובה אלרגית קשה, ולכן חשוב לזהות את התמונה הכוללת.</li>
+</ul>
+<p class="muted">זהו כלי לרענון ידע בלבד. במקרה חירום יש לפעול לפי ההכשרה המקצועית, הנהלים המקומיים והנחיות גורמי החירום.</p>
+<a class="home" href="index.html">🏠 חזרה לתפריט הראשי</a></section>
+</div>
+
+<script>
+const A=['א','ב','ג','ד'];
+const steps=[
+{caseTitle:'אירוע 1 — דני בחדר האוכל',story:'אתה במשמרת אחר הצהריים.<br>בחדר האוכל כמה מהדיירים יושבים ואוכלים.<br><br>פתאום אחד העובדים קורא לך:<br><strong>״בוא מהר! משהו קרה לדני.״</strong><br><br>אתה מגיע. דני עומד ליד השולחן. הוא נראה מבוהל.<br>הוא מנסה לדבר, אבל לא מצליח להוציא מילים.<br>הוא מחזיק את הצוואר בידיים.<br><br>אחד העובדים אומר:<br>״הוא אכל לפני רגע.״',q:'מה אתה מבין מהמצב שאתה רואה?',c:['כנראה שהוא נבהל או נכנס ללחץ.','ייתכן שמדובר בחסימת נתיב אוויר בעקבות האוכל.','אם הוא עומד, המצב כנראה אינו חמור.','כדאי לתת לו מים ולראות אם זה עובר.'],a:1},
+{story:'אתה מתקרב לדני.<br>הוא מנסה להשתעל.<br>בהתחלה יוצא שיעול חלש, אבל הוא עדיין מצליח להכניס מעט אוויר.',q:'מה אתה עושה עכשיו?',c:['מבקש ממנו להשתעל וממשיך להשגיח עליו.','נותן לו מיד 5 מכות על הגב.','נותן לו לשתות מים.','משכיב אותו ומתחיל החייאה.'],a:0},
+{story:'לרגע נראה שהשיעול מתחזק.<br>ואז דני מפסיק להשתעל.<br>הוא מנסה לנשום — אבל עכשיו הוא <strong>לא מצליח לדבר ולא מצליח להשתעל</strong>.<br>הוא עדיין בהכרה ומסמן בידיים שמשהו תקוע.',q:'מה אתה עושה עכשיו?',c:['נותן לו מים ומחכה.','מכניס אצבע לפה ומנסה להוציא את החפץ.','נותן עד 5 מכות בין השכמות, ובודק לאחר כל מכה אם החסימה השתחררה.','משכיב אותו ומתחיל החייאה.'],a:2},
+{story:'אתה נותן את המכות בין השכמות.<br>אחרי חמש מכות החסימה עדיין לא השתחררה.<br>דני עדיין בהכרה, אבל אינו מצליח להשתעל או לדבר.',q:'מה הצעד הבא?',c:['ממשיך לתת מכות על הגב עד שהחסימה תשתחרר.','נותן לו לשתות מים.','עובר לעד 5 לחיצות בטן, ובודק לאחר כל לחיצה אם החסימה השתחררה.','משכיב אותו ומתחיל החייאה.'],a:2},
+{story:'אחרי הלחיצה השלישית דני משתעל פתאום.<br>הוא מצליח להוציא את מה שחסם את דרכי האוויר.<br>הוא לוקח נשימה עמוקה.<br><br>הוא עדיין מבוהל, משתעל ומתקשה לדבר.',q:'מה אתה עושה עכשיו?',c:['נותן לו כמה דקות לנוח לבד, כי החסימה השתחררה.','נותן לו לשתות כוס מים כדי להרגיע את הגרון.','משכיב אותו ומתחיל החייאה ליתר ביטחון.','ממשיך להשגיח עליו ומוודא שמצב הנשימה שלו משתפר, ובמידת הצורך מזעיק עזרה רפואית.'],a:3},
+{caseTitle:'אירוע 2 — מרים בחצר',story:'אתה נמצא בחצר.<br><br>אחת העובדות מגיעה אליך במהירות:<br><strong>״תבוא רגע, משהו קרה למרים.״</strong><br><br>מרים יושבת על ספסל. היא נראית מאוד לא רגועה.<br>יש לה נפיחות בשפתיים.<br>היא אומרת:<br><strong>״קשה לי לנשום.״</strong><br><br>העובדת שלידה אומרת:<br>״היא אכלה משהו לפני כמה דקות.״',q:'מה הדבר החשוב ביותר להבין בשלב הזה?',c:['ייתכן שמדובר בתגובה אלרגית קשה שדורשת טיפול מהיר והזעקת עזרה.','כנראה מדובר רק בחרדה בגלל מה שאכלה.','אם היא עדיין מדברת, אין סכנה משמעותית.','כדאי לתת לה משהו לשתות ולחכות כמה דקות.'],a:0},
+{story:'מרים מתחילה להשתעל.<br>הנשימה שלה נעשית קשה יותר.<br>העובדת שלידה אומרת:<br>״אני חושבת שזה התחיל אחרי שהיא אכלה את העוגה.״<br><br>אתה מבין שהמצב עלול להחמיר במהירות.',q:'מה הפעולה המרכזית עכשיו?',c:['מבקש ממרים ללכת לחדר שלה ולנוח.','ממתין לראות אם הנפיחות תעבור מעצמה.','מזעיק עזרה רפואית ופועל מיד לפי ההכשרה והנהלים למצב של תגובה אלרגית קשה.','נותן לה מים ומבקש ממנה לנשום לאט.'],a:2},
+{story:'העובדת שליד מרים אומרת:<br>״יש לה מזרק אדרנלין בתיק שלה.״<br><br>מרים עדיין בהכרה, אבל מתקשה יותר ויותר לנשום.',q:'מה נכון לעשות?',c:['להשתמש במזרק האדרנלין בהתאם להכשרה, להנחיות ולנהלים, ולא לעכב את הזעקת העזרה.','לחכות עד שמרים תאבד את ההכרה.','לתת למרים לשתות מים לפני כל פעולה אחרת.','להושיב אותה לבד ולחכות לראות אם המצב משתפר.'],a:0}
+];
+let i=0,good=0,bad=0,mistakes=[],answered=false;
+function start(){intro.classList.add('hidden');game.classList.remove('hidden');render()}
+function render(){answered=false;let s=steps[i];progress.textContent=`שלב ${i+1} מתוך ${steps.length}`;story.innerHTML=(s.caseTitle?`<strong>${s.caseTitle}</strong><br><br>`:'')+s.story;question.innerHTML=`<h2>${s.q}</h2>`;choices.innerHTML='';s.c.forEach((t,n)=>{let b=document.createElement('button');b.className='choice';b.innerHTML=`<strong>${A[n]}.</strong> ${t}`;b.onclick=()=>answer(n);choices.appendChild(b)});feedback.className='feedback';next.className='next'}
+function answer(n){if(answered)return;answered=true;let s=steps[i],bs=[...document.querySelectorAll('.choice')];bs.forEach(b=>b.disabled=true);if(n===s.a){good++;bs[n].classList.add('correct');show(true,'✔️ נכון.')}else{bad++;bs[n].classList.add('wrong');bs[s.a].classList.add('correct');mistakes.push({q:s.q,chosen:s.c[n],correct:s.c[s.a]});show(false,'❌ לא נכון. התשובה הנכונה מסומנת בירוק.')}next.classList.add('show')}
+function show(ok,t){feedback.textContent=t;feedback.className='feedback show '+(ok?'ok':'bad')}
+function nextStep(){i++;i<steps.length?render():finish()}
+function finish(){game.classList.add('hidden');summary.classList.remove('hidden');correctScore.textContent=`✔️ ${good} החלטות נכונות`;wrongScore.textContent=`❌ ${bad} החלטות שגויות`;debrief.innerHTML=mistakes.length?'<h3>על ההחלטות שבהן טעית</h3>'+mistakes.map((m,n)=>`<div class="wrong"><strong>החלטה ${n+1}:</strong> ${m.q}<br><strong>בחרת:</strong> ${m.chosen}<br><strong>התשובה הנכונה:</strong> ${m.correct}</div>`).join(''):'<p><strong>לא היו טעויות במהלך הרענון.</strong></p><p>עדיין כדאי לעבור על נקודות הסיכום — המטרה היא לשמור את סדר הפעולות זמין גם כשצריך לפעול במהירות.</p>'}
+</script>
+</body></html>

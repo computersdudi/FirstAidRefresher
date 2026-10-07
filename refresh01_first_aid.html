@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>רענון 01 — כשמישהו מתמוטט</title>
+<style>
+body{margin:0;background:#f4f6f8;color:#18212b;font-family:Arial,sans-serif;line-height:1.65}
+main{max-width:720px;margin:auto;padding:18px 14px 40px}
+.card{background:#fff;border:1px solid #d9e0e6;border-radius:18px;padding:22px;box-shadow:0 4px 18px #0000000d}
+h1,h2{line-height:1.25} h1{font-size:30px} h2{font-size:22px}
+.small{color:#65727e;font-size:14px}.lead{font-size:18px}
+button{font:inherit;cursor:pointer}.primary{width:100%;border:0;border-radius:13px;padding:14px;background:#1f6f8b;color:white;font-weight:bold;margin-top:16px}
+.answer{display:block;width:100%;text-align:right;background:#fff;border:1px solid #d9e0e6;border-radius:13px;padding:13px;margin:9px 0}
+.correct{background:#eef8f2;border-color:#26734d}.wrong{background:#fff0f0;border-color:#a33a3a}
+.result{margin-top:16px;padding:13px;border-radius:12px;font-weight:bold}.ok{background:#eef8f2;color:#26734d}.bad{background:#fff0f0;color:#a33a3a}
+.progress{height:8px;background:#e6ebef;border-radius:99px;overflow:hidden;margin:12px 0 20px}.progress>div{height:100%;background:#1f6f8b;width:0}
+.hidden{display:none}.hr{border:0;border-top:1px solid #d9e0e6;margin:24px 0}footer{text-align:center;color:#65727e;font-size:13px;margin-top:20px}
+</style>
+</head>
+<body>
+<main>
+<section id="intro" class="card">
+<div class="small">רענון עזרה ראשונה · כ־10 דקות</div>
+<h1>כשמישהו מתמוטט</h1>
+<p class="lead">הפעם אתה נכנס למקרה אמיתי. במהלך האירוע תצטרך לקבל כמה החלטות.</p>
+<p>אם טעית — הרענון ממשיך. בסוף תקבל תחקיר קצר על ההחלטות שלך.</p>
+<button class="primary" onclick="start()">התחל</button>
+<footer>כלי רענון בלבד. אינו מחליף הדרכה מקצועית או תרגול מעשי.</footer>
+</section>
+
+<section id="game" class="card hidden">
+<div class="small" id="counter"></div><div class="progress"><div id="bar"></div></div>
+<div id="scenario"></div><div id="answers"></div>
+<div id="instant" class="result hidden"></div>
+<button id="next" class="primary hidden" onclick="nextQuestion()">המשך</button>
+</section>
+
+<section id="end" class="card hidden">
+<div class="small">סוף האירוע</div><h2>האירוע הסתיים</h2>
+<p id="score"></p><div id="debrief"></div><hr class="hr">
+<h2>🧠 מה לקחת מהאירוע?</h2>
+<ol>
+<li>חוסר תגובה יחד עם נשימה שאינה תקינה דורש התייחסות כחשד לדום לב.</li>
+<li>מזעיקים עזרה ומתחילים החייאה ללא דיחוי.</li>
+<li>כשה־AED זמין, מפעילים אותו ופועלים לפי הוראותיו.</li>
+</ol>
+<p class="small">זהו רענון של עקרונות שנלמדו בהדרכה מקצועית, ולא תחליף להכשרה מעשית.</p>
+<button class="primary" onclick="location.reload()">התחל מחדש</button><a class="home" href="index.html">🏠 חזרה לתפריט הראשי</a>
+</section>
+</main>
+
+<script>
+const qs=[
+{t:'השעה 10:35. אתה עובר במסדרון. אחד העובדים קורא לך: <b>"בוא מהר! יוסי נפל."</b><br><br>אתה מגיע לחדר. יוסי שוכב על הרצפה. הסביבה נראית בטוחה.<br><br><b>מה אתה עושה?</b>',a:['מושיב אותו ובודק אם הוא מרגיש טוב.','בודק אם הוא מגיב.','מחפש מיד את התרופות שלו.','נותן לו מים.'],c:1,f:'הפעולה הראשונה היא לבדוק תגובה, לאחר שווידאת שהסביבה בטוחה.'},
+{t:'אתה פונה ליוסי: <b>"יוסי? אתה שומע אותי?"</b><br><br>אין תגובה. אתה בודק שוב. כלום.<br><br><b>מה עכשיו?</b>',a:['מחכה עוד כמה רגעים, אולי הוא יתעורר.','בודק אם הוא נושם באופן תקין ומזעיק עזרה.','מחפש את התרופות שלו.','מנסה להושיב אותו.'],c:1,f:'אדם שאינו מגיב דורש הערכה מהירה של הנשימה והזעקת עזרה.'},
+{t:'אתה מתבונן ביוסי. הוא עדיין לא מגיב. אתה רואה מדי פעם נשימות איטיות ולא סדירות: <b>"הא... הא..."</b><br><br><b>מה אתה מבין?</b>',a:['הוא נושם, ולכן כנראה אין דום לב.','צריך לחכות ולבדוק אם הנשימה מסתדרת.','הנשימה אינה תקינה, ולכן צריך להתייחס למצב כחשד לדום לב ולפעול.','כדאי לתת לו מים.'],c:2,f:'נשימות חריגות או גספינג אצל אדם שאינו מגיב אינן נחשבות נשימה תקינה.'},
+{t:'עובד נוסף נמצא לידך.<br><br><b>מה אתה עושה?</b>',a:['מתחיל החייאה ומבקש מהעובד להזעיק עזרה ולהביא AED.','מחכה שה־AED יגיע.','מנסה להושיב את יוסי.','מחפש את התרופות שלו.'],c:0,f:'בחשד לדום לב יש להזעיק עזרה ולהתחיל החייאה ללא דיחוי; במקביל אפשר לבקש מאדם נוסף להביא AED.'},
+{t:'העובד חוזר עם AED. המכשיר נמצא לידך.<br><br><b>מה אתה עושה?</b>',a:['מחכה לצוות הרפואי.','ממשיך רק בעיסויים ומתעלם מהמכשיר.','מפעיל את ה־AED, מחבר את המדבקות ופועל לפי הוראותיו.','מחפש קודם את התרופות של יוסי.'],c:2,f:'כשה־AED זמין, מפעילים אותו, מחברים את המדבקות ופועלים לפי הוראות המכשיר.'},
+{t:'ה־AED אומר: <b>"אל תיגעו במטופל."</b><br><br><b>מה אתה עושה?</b>',a:['ממשיך בעיסויים בזמן הניתוח.','נוגע ביוסי כדי לבדוק אם הוא מגיב.','מוודא שאף אחד אינו נוגע ביוסי וממתין להנחיית המכשיר.','מנתק את המדבקות.'],c:2,f:'בזמן ניתוח הקצב יש לוודא שאיש אינו נוגע במטופל, כדי לאפשר למכשיר לבצע את הניתוח בבטחה.'},
+{t:'ה־AED מסיים את הניתוח ומורה: <b>"אין צורך במתן שוק. המשך החייאה."</b><br><br>אתה ממשיך בהתאם להוראות המכשיר. כעבור זמן קצר יוסי מתחיל לזוז. הוא מתחיל לנשום באופן תקין ולפקוח את עיניו.<br><br><b>מה עכשיו?</b>',a:['עוזבים אותו כדי להביא מים.','מושיבים אותו מיד ומאפשרים לו ללכת.','ממשיכים לעקוב אחר מצבו ופועלים בהתאם למצב ולהנחיות עד להגעת הצוות.','משאירים אותו לבד כדי שיוכל לנוח.'],c:2,f:'כאשר המצב משתפר, ממשיכים להשגיח על האדם ופועלים בהתאם למצב ולהנחיות עד להגעת הצוות.'}
+];
+let i=0,right=0,wrong=0,mistakes=[];
+function start(){intro.classList.add('hidden');game.classList.remove('hidden');render()}
+function render(){
+ let q=qs[i]; counter.textContent='החלטה '+(i+1)+' מתוך '+qs.length; bar.style.width=(i/qs.length*100)+'%';
+ scenario.innerHTML=q.t; answers.innerHTML=''; instant.className='result hidden'; next.classList.add('hidden');
+ q.a.forEach((x,n)=>{let b=document.createElement('button');b.className='answer';b.textContent=String.fromCharCode(1488+n)+'. '+x;b.onclick=()=>choose(n,b);answers.appendChild(b)})
+}
+function choose(n,b){
+ let q=qs[i];
+document.querySelectorAll('.answer').forEach(x=>x.disabled=true);
+let ok=n===q.c;
+b.classList.add(ok?'correct':'wrong');
+if(ok){
+  right++;
+}else{
+  wrong++;
+  mistakes.push({n:i+1,sel:q.a[n],cor:q.a[q.c],f:q.f});
+  document.querySelectorAll('.answer')[q.c].classList.add('correct');
+}
+instant.className='result '+(ok?'ok':'bad');
+instant.innerHTML=ok?'✔️ נכון':'❌ לא נכון<br><span style="font-weight:normal">התשובה הנכונה מסומנת בירוק.</span>';
+next.textContent=i===qs.length-1?'סיום האירוע':'המשך';
+next.classList.remove('hidden')
+}
+function nextQuestion(){i++;if(i<qs.length)render();else finish()}
+function finish(){
+ game.classList.add('hidden');end.classList.remove('hidden');score.innerHTML='במהלך האירוע קיבלת <b>'+right+' החלטות נכונות</b> ו־<b>'+wrong+' החלטות שגויות</b>.';
+ if(!mistakes.length)debrief.innerHTML='<p><b>כל ההחלטות היו נכונות.</b> אין נקודת רענון אישית הפעם.</p>';
+ else debrief.innerHTML='<h2>🔎 מה כדאי לרענן?</h2>'+mistakes.map(m=>'<div class="result bad"><b>החלטה '+m.n+'</b><br>בחרת: '+m.sel+'<br><br><b>מה היה נכון:</b> '+m.cor+'<br><br><b>למה:</b> '+m.f+'</div>').join('')
+}
+</script>
+</body>
+</html>

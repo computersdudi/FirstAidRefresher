@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>רענון עזרה ראשונה 09 — חום, התייבשות וטביעה</title>
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--ink:#263238;--muted:#667085;--primary:#1769aa;--primary2:#0d47a1;--good:#18864b;--goodbg:#e9f8ef;--bad:#c62828;--badbg:#fff0f0;--accent:#ffb300;--shadow:0 8px 24px rgba(31,41,55,.10)}
+*{box-sizing:border-box} body{margin:0;background:linear-gradient(135deg,#eef7ff,#fff7e8);font-family:Arial,"Noto Sans Hebrew",sans-serif;color:var(--ink);line-height:1.65}
+.container{max-width:760px;margin:auto;padding:18px}.hero{background:linear-gradient(135deg,#1769aa,#42a5f5);color:#fff;border-radius:22px;padding:24px 22px;box-shadow:var(--shadow);margin-bottom:18px}.hero h1{margin:0 0 8px;font-size:28px}.hero p{margin:0;opacity:.95}.card{background:var(--card);border-radius:20px;padding:22px;margin:16px 0;box-shadow:var(--shadow)}
+.badge{display:inline-block;background:#fff3cd;color:#765400;border-radius:999px;padding:4px 11px;font-weight:700;font-size:14px;margin-bottom:10px}.event-title{font-size:23px;margin:0 0 12px;color:#155e91}.story{background:#f7fbff;border-right:5px solid #42a5f5;border-radius:12px;padding:15px;margin:12px 0 18px;white-space:pre-line}.question{font-weight:700;font-size:19px;margin:18px 0 12px}.answers{display:grid;gap:10px}.answer{width:100%;border:2px solid #d8dee8;background:#fff;border-radius:14px;padding:13px 15px;text-align:right;font-size:17px;cursor:pointer;transition:.15s}.answer:hover{border-color:#42a5f5;background:#f7fbff}.answer:disabled{cursor:default}.feedback{margin-top:15px;padding:15px;border-radius:14px;font-weight:700}.feedback.good{background:var(--goodbg);border:1px solid #a7dfbd;color:#126438}.feedback.bad{background:var(--badbg);border:1px solid #efb0b0;color:#9d2020}.correct-mark{display:block;color:var(--good);margin-top:7px}.continue{display:none;margin-top:12px;border:0;border-radius:13px;padding:12px 18px;background:var(--primary);color:#fff;font-size:16px;font-weight:700;cursor:pointer}.summary ul{padding-right:22px}.note{background:#fff8e1;border-right:5px solid var(--accent);padding:14px;border-radius:12px}.home{display:inline-block;margin-top:12px;text-decoration:none;background:#455a64;color:#fff;padding:12px 18px;border-radius:13px;font-weight:700}.score{font-size:20px;font-weight:700;color:#155e91}.hidden{display:none}.divider{height:1px;background:#e5e7eb;margin:22px 0}
+@media(max-width:560px){.container{padding:11px}.hero{padding:20px 17px}.hero h1{font-size:24px}.card{padding:17px}.answer{font-size:16px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header class="hero"><h1>רענון עזרה ראשונה 09</h1><p>חום, התייבשות וטביעה</p></header>
+<div class="card" id="intro">
+<h2>איך זה עובד?</h2>
+<p>אתה נמצא בתוך האירוע. המצב מתפתח, ובנקודות מסוימות תצטרך להחליט מה לעשות.</p>
+<p>אחרי כל החלטה תקבל משוב מיידי. בסוף תקבל סיכום של ההחלטות שלך ומה כדאי לרענן.</p>
+<div class="note"><strong>חשוב:</strong> זהו כלי רענון בלבד. הוא אינו מחליף הכשרה מקצועית, נהלי מקום העבודה או הנחיות של מוקד החירום והצוות הרפואי.</div>
+<button class="continue" style="display:inline-block" onclick="start()">▶ מתחילים</button>
+</div>
+<div id="game"></div>
+</div>
+<script>
+const events=[
+{title:'אירוע 1 — חום והתייבשות',story:`זה יום קיץ חם מאוד. אתה נמצא בחצר עם כמה מהדיירים.
+אחד מהם, נועם, שהיה פעיל עד לפני כמה דקות, פתאום מתיישב על הקרקע.
+אתה ניגש אליו.
+הוא אומר: ״אני קצת מותש... נראה לי שפשוט חם לי.״
+אתה שם לב שהוא מזיע מאוד, חלש ונראה פחות מרוכז מהרגיל.`,qs:[
+{q:'מה הדבר המתאים ביותר לעשות עכשיו?',a:['להשאיר אותו לשבת ולחכות כמה דקות כדי לראות אם זה יעבור.','להעביר אותו למקום קריר יותר, להפסיק את הפעילות ולהעריך את מצבו.','לתת לו לשתות הרבה מאוד מים קרים בבת אחת ואז להחזיר אותו לפעילות.','להחזיר אותו לפעילות קלה כדי שלא יתקרר מהר מדי.'],c:1},
+{q:'כעבור כמה דקות הוא עדיין חלש ומתלונן על כאב ראש. הוא בהכרה מלאה, מדבר כרגיל ויכול לבלוע. מה נכון עכשיו?',a:['להישאר במקום הקריר, להמשיך לעקוב ולעודד שתייה הדרגתית בהתאם לפרוטוקול החירום/המקום.','להחזיר אותו לשמש לזמן קצר כדי לבדוק אם הוא מרגיש טוב יותר.','לתת לו משקה אנרגיה ולהמשיך בפעילות.','להשאיר אותו לבד למנוחה ולבדוק אותו שוב מאוחר יותר.'],c:0},
+{q:'עכשיו אתה מבחין שהוא כבר לא מזיע כמו קודם. הוא מבולבל ועונה תשובות שאינן קשורות לשאלות שלך. מה עושים?',a:['לתת לו עוד מים ולחכות כמה דקות.','להעביר אותו לחדר ממוזג ולהשאיר אותו לבד כדי שינוח.','להזעיק מיד עזרה רפואית ולהמשיך בקירור פעיל; לא לתת לו לשתות כשהוא מבולבל.','לשאול אותו עוד כמה שאלות כדי לוודא שהוא באמת מבולבל.'],c:2},
+{q:'הוא נעשה ישנוני יותר. הוא עדיין מגיב, אבל לאט יותר. מה עכשיו?',a:['לתת לו לישון ולבדוק אותו בעוד כמה דקות.','לעקוב אחר רמת ההכרה והנשימה, לעדכן את מוקד החירום בכל שינוי ולפעול לפי ההנחיות.','לתת לו מים בכפית כדי שלא יתייבש.','לנסות להשאיר אותו ער בכל מחיר באמצעות דיבור רצוף.'],c:1}
+]},
+{title:'אירוע 2 — טביעה',story:`זה אחר צהריים בבריכה.
+אתה נמצא באזור הבריכה כשפתאום אתה שומע צעקה:
+״מישהו צריך עזרה!״
+אתה מסתכל ורואה אדם שנמצא במים. הוא מפרפר, מתקשה להישאר מעל פני המים ונראה שאינו מצליח להגיע לדופן.`,qs:[
+{q:'מה הפעולה המתאימה ביותר?',a:['לקפוץ מיד למים ולשחות אליו, גם אם אינך בטוח ביכולתך לחלץ אותו.','להזעיק עזרה ולפעול לחילוץ בדרך בטוחה, בלי לסכן את עצמך.','לחכות שאדם אחר יטפל בכך כדי לא להפריע.','לצעוק אליו להירגע ולהמתין לראות אם יגיע בעצמו לדופן.'],c:1},
+{q:'הוא חולץ בעזרת אמצעי הצלה שהיה במקום. הוא מחוץ למים, בהכרה, משתעל וקצת מתקשה לנשום. מה עושים?',a:['להמתין כמה דקות. אם השיעול יעבור, אפשר להמשיך כרגיל.','להעריך את מצבו ואת הנשימה, להזעיק/לעדכן עזרה רפואית ולהישאר איתו.','להשכיב אותו על הבטן כדי שהמים יצאו מהריאות.','לתת לו לשתות מים כדי להרגיע את השיעול.'],c:1},
+{q:'כעבור זמן קצר הנשימה שלו נעשית מהירה ומאומצת יותר. מה עכשיו?',a:['לבקש ממנו לקחת כמה נשימות עמוקות ולהמתין.','לתת לו לשתות ולראות אם זה משתפר.','לעדכן מיד את מוקד החירום, להמשיך לעקוב אחר ההכרה והנשימה ולפעול לפי ההנחיות.','להשכיב אותו על הבטן ולחכות לצוות.'],c:2}
+]}
+];
+let ei=0,qi=0,correct=0,wrong=0;
+function start(){document.getElementById('intro').classList.add('hidden');render();}
+function render(){const e=events[ei], q=e.qs[qi];document.getElementById('game').innerHTML=`<div class="card"><span class="badge">אירוע ${ei+1} מתוך ${events.length}</span><h2 class="event-title">${e.title}</h2>${qi===0?`<div class="story">${e.story}</div>`:''}<div class="question">${q.q}</div><div class="answers">${q.a.map((x,i)=>`<button class="answer" onclick="choose(${i})"><strong>${'אבגד'[i]}.</strong> ${x}</button>`).join('')}</div><div id="fb"></div><button id="cont" class="continue" onclick="next()">המשך ▶</button></div>`;}
+function choose(i){const e=events[ei],q=e.qs[qi],buttons=document.querySelectorAll('.answer');buttons.forEach(b=>b.disabled=true);const fb=document.getElementById('fb');if(i===q.c){correct++;fb.className='feedback good';fb.innerHTML='✔️ נכון';}else{wrong++;buttons[q.c].style.borderColor='#18864b';buttons[q.c].style.background='#e9f8ef';fb.className='feedback bad';fb.innerHTML=`❌ לא נכון<span class="correct-mark">התשובה הנכונה מסומנת בירוק.</span>`;}document.getElementById('cont').style.display='inline-block';}
+function next(){qi++;if(qi<events[ei].qs.length){render();return;}const label = (ei < events.length - 1) ? 'המשך לאירוע הבא ▶' : 'עבור לסיכום הרענון ▶';document.getElementById('game').innerHTML=`<div class="card"><h2 class="event-title">✔ האירוע הסתיים</h2><p>הצוות הרפואי מגיע ולוקח את הטיפול מכאן.</p><button class="continue" style="display:inline-block" onclick="nextEvent()">${label}</button></div>`;}
+function nextEvent(){ei++;qi=0;if(ei<events.length){render();}else{summary();}}
+function summary(){document.getElementById('game').innerHTML=`<div class="card summary"><h2 class="event-title">סיכום הרענון</h2><p class="score">נכון: ${correct} &nbsp; | &nbsp; לא נכון: ${wrong}</p><div class="divider"></div><h3>מה כדאי לזכור?</h3><ul><li><strong>חום:</strong> להעביר למקום קריר, להפסיק פעילות ולעקוב אחר המצב.</li><li><strong>חשד למכת חום:</strong> בלבול או שינוי במצב ההכרה הם סימן אזהרה — להזעיק עזרה רפואית ולהתחיל קירור פעיל. כשאדם מבולבל, לא נותנים לו שתייה דרך הפה.</li><li><strong>טביעה:</strong> לא מסכנים את עצמך. מזעיקים עזרה ופועלים לחילוץ בדרך בטוחה.</li><li><strong>אחרי חילוץ:</strong> מעריכים מצב ונשימה. שיעול משמעותי או שינוי בנשימה מחייבים הערכה רפואית ומעקב.</li></ul><div class="note"><strong>זכור:</strong> הרענון אינו מחליף הכשרה בעזרה ראשונה, נהלי מקום העבודה או הנחיות של מוקד החירום והצוות הרפואי.</div><a class="home" href="index.html">🏠 חזרה לתפריט הראשי</a></div>`;}
+</script>
+</body>
+</html>

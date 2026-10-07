@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>רענון 06 — כוויות והתחשמלות</title>
+<style>
+body{margin:0;background:#f4f6f8;color:#20252b;font-family:Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:auto;padding:18px}.card{background:#fff;border-radius:18px;padding:24px;margin:14px 0;box-shadow:0 3px 14px #0001}
+h1,h2{margin-top:0}.lead{font-size:18px}.quote{background:#f7f7f7;border-right:4px solid #999;padding:12px 16px;border-radius:8px}
+button{width:100%;border:0;border-radius:12px;padding:14px;margin:8px 0;font-size:17px;cursor:pointer;background:#e9edf2}
+.progress{font-size:14px;color:#5c6670;margin-bottom:8px}.feedback{padding:14px;border-radius:12px;margin-top:14px;font-size:17px}
+.ok{background:#eaf7ed;border:1px solid #7abb88}.bad{background:#fff0f0;border:1px solid #d66}
+.green{background:#d9f2df!important;border:2px solid #38a169!important}.red{background:#f8d7da!important;border:2px solid #c53030!important}
+.badge{display:inline-block;padding:4px 9px;border-radius:999px;background:#eef2f5;font-size:13px}.small{font-size:14px;color:#59636d}
+.hidden{display:none}.summary li{margin:8px 0}
+</style>
+</head>
+<body><div class="wrap">
+
+<section id="intro" class="card">
+<div class="badge">רענון 06</div>
+<h1>כוויות והתחשמלות</h1>
+<p class="lead">שני אירועים נפרדים. בכל אירוע תצטרך לקבל החלטות קצרות, כמו במצב אמיתי.</p>
+<p>המטרה היא לחזק זיהוי מצב, בטיחות, פעולה ראשונית נכונה והזעקת עזרה.</p>
+<button onclick="start()">התחל רענון</button>
+</section>
+
+<section id="app" class="card hidden"><div id="story"></div><div id="feedback"></div><div id="choices"></div></section>
+<section id="debrief" class="card hidden"></section>
+</div>
+
+<script>
+const events=[
+{title:"אירוע 1 — איי! זה חם!",intro:`אמצע משמרת.<br><br>אתה עובר ליד המטבח ושומע צעקה:<div class="quote">"איי! איי! זה חם!"</div>אתה נכנס ורואה את אבנר, שעובד כעוזר במטבח.<br><br>הוא הוריד במהירות מגש חם מהתנור. הוא לא השתמש בכפפות מתאימות.<br><br>הוא מחזיק את היד שלו ואומר:<div class="quote">"נכוויתי!"</div>אתה רואה שהעור ביד שלו אדום מאוד.`,
+questions:[
+{text:"מה הדבר הראשון שאתה עושה?",choices:["מורח מיד משחה או קרם על האזור.","שם קרח ישירות על הכוויה כדי לקרר אותה.","מרחיק אותו ממקור החום ומתחיל לקרר את אזור הכוויה במים זורמים קרירים.","מכסה מיד את הכוויה בתחבושת כדי שלא תיחשף לאוויר."],correct:2,explain:"מרחיקים ממקור החום ומתחילים לקרר את הכוויה במים זורמים. לא שמים קרח ישירות על הכוויה ולא מורחים כרגע חומרים ביתיים."},
+{text:`אבנר מכניס את היד מתחת למים.<br><br>אחרי כמה רגעים הוא אומר:<div class="quote">"רגע... יש לי טבעת ושעון ביד הזאת."</div><br>מה נכון לעשות?`,choices:["להשאיר אותם במקום — לא כדאי לגעת באזור הכוויה.","להסיר בעדינות את הטבעת והשעון, אם אפשר לעשות זאת בקלות ולפני שמתפתחת נפיחות.","להמשיך את הקירור ורק אחר כך לבדוק אם אפשר להסיר אותם.","לחתוך את הטבעת והשעון מיד, גם אם ניתן להסיר אותם בקלות."],correct:1,explain:"אם אפשר להסיר בקלות טבעת, שעון או פריט הדוק אחר — כדאי להסיר אותם מוקדם, לפני שמתפתחת נפיחות שמקשה על ההסרה."},
+{text:`הקירור נמשך. אבנר עדיין מתלונן על כאב.<br><br>מה נכון לעשות עכשיו?`,choices:["להפסיק את הקירור ולמרוח משחת שיניים כדי להרגיע את המקום.","להמשיך בקירור במים זורמים במשך זמן מתאים, ובמקביל להעריך את חומרת הכוויה ולפעול לפי הנהלים.","להצמיד קרח עטוף בבד לכמה דקות כדי להוריד את הנפיחות.","לפוצץ את השלפוחיות אם יופיעו, כדי שהנוזל יצא."],correct:1,explain:"ממשיכים בקירור במים זורמים במשך זמן מתאים, ובמקביל מעריכים את חומרת הכוויה. לא משתמשים בקרח ולא בחומרים ביתיים."},
+{text:`אבנר מסתכל על היד ושואל:<div class="quote">"אז זה רק כוויה קטנה? אני יכול לחזור לעבוד?"</div><br>מה נכון לעשות?`,choices:["אם הוא מרגיש שהוא יכול לעבוד, אפשר לחזור לעבודה מיד.","להעריך את גודל ומיקום הכוויה ואת חומרתה, ואם יש סימנים שמחייבים הערכה רפואית — לפנות לקבלת טיפול בהתאם לנהלים.","אם העור אדום בלבד, אין צורך יותר לבדוק את הכוויה.","לכסות אותה מיד בתחבושת הדוקה ולשלוח אותו בחזרה לעבודה."],correct:1,explain:"לא מספיק לראות שהעור אדום. צריך להעריך את גודל הכוויה, מיקומה וחומרתה, ולפעול לפי הנהלים אם נדרשת הערכה רפואית."},
+{text:`במהלך הקירור מתחילה להופיע שלפוחית באזור שנכווה.<br><br>מה תעשה?`,choices:["תפוצץ את השלפוחית כדי להוציא את הנוזל.","תשאיר את השלפוחית שלמה, לא תשפשף את האזור ותגן עליו לפי הנהלים המתאימים.","תסיר את שכבת העור שמעל השלפוחית כדי שהאזור יתייבש.","תמרח חומר חיטוי חזק על השלפוחית."],correct:1,explain:"משאירים את השלפוחית שלמה ולא משפשפים או מקלפים את העור. מגנים על האזור ופועלים לפי הנהלים ולפי הצורך בהערכה רפואית."}
+]},
+{title:"אירוע 2 — אל תיגע בו!",intro:`סוף משמרת.<br><br>אתה עובר בחצר העבודה ושומע צעקה.<br><br>אתה מגיע ורואה את יורם שוכב על הקרקע, ליד גוף תאורה שניזוק.<br><br>אתה מבחין בחוט חשמלי חשוף.<br><br>אחד העובדים שנמצא שם צועק:<div class="quote">"תעזור לו! הוא לא זז!"</div>יורם נראה מחוסר הכרה.`,
+questions:[
+{text:"מה הדבר הראשון והחשוב ביותר שאתה עושה?",choices:["רץ אליו ומנסה למשוך אותו הרחק מהחוט.","נוגע ביורם כדי לבדוק אם הוא מגיב.","מוודא קודם שמקור החשמל נותק ושאין סכנה לך או לאחרים לפני שמתקרבים אליו.","שופך עליו מים כדי לבדוק אם הוא מגיב."],correct:2,explain:"כל עוד מקור החשמל עלול להיות פעיל, אסור להתקרב ולגעת בנפגע. קודם מוודאים שהחשמל נותק ושהזירה בטוחה."},
+{text:`כעבור זמן קצר אתה מקבל אישור שהחשמל נותק והאזור בטוח.<br><br>יורם עדיין שוכב על הקרקע.<br><br>מה הדבר הבא שחשוב לעשות?`,choices:["לבדוק אם יורם מגיב ולבדוק את הנשימה שלו.","להושיב אותו מיד כדי לראות אם הוא מסוגל לעמוד.","לתת לו מים.","להמתין כמה דקות ולראות אם הוא מתאושש לבד."],correct:0,explain:"כשהזירה בטוחה, בודקים תגובה ונשימה וממשיכים לפי מצבו."},
+{text:`יורם לא מגיב.<br><br>אתה בודק את הנשימה ומגלה שהוא <b>לא נושם כרגיל</b>.<br><br>מה אתה עושה עכשיו?`,choices:["מושיב אותו ומנסה לגרום לו להתעורר.","מתחיל החייאה ומבקש להביא AED ולהזעיק את מוקד החירום.","נותן לו מים כדי לעזור לו להתאושש.","מחכה עוד דקה או שתיים, כי ייתכן שהנשימה תחזור מעצמה."],correct:1,explain:"אדם מחוסר הכרה שאינו נושם כרגיל הוא מצב חירום. מתחילים החייאה, מזעיקים את מוקד החירום ומבקשים להביא AED."},
+{text:`אתה מתחיל בהחייאה. כעבור זמן קצר מגיע עובד עם ה־AED.<br><br>המכשיר מופעל ומבקש מכולם להתרחק בזמן שהוא מנתח את קצב הלב.<br><br>מה אתה עושה?`,choices:["ממשיך לגעת ביורם בזמן שהמכשיר מנתח, כדי לוודא שהוא לא זז.","מפסיק את המגע ביורם ומוודא שאף אחד לא נוגע בו בזמן שה־AED מנתח, ופועל בדיוק לפי הוראות המכשיר.","מנתק את ה־AED וממשיך רק בהחייאה ידנית.","מחכה לראות אם יורם מתחיל לנשום לפני שמקשיב להוראות ה־AED."],correct:1,explain:"בזמן ניתוח ה־AED אף אחד לא נוגע בנפגע. ממשיכים בדיוק לפי הוראות המכשיר."},
+{text:`ה־AED מסיים את הניתוח ומורה:<div class="quote">"אין לתת שוק. המשך החייאה."</div><br>מה תעשה?`,choices:["מפסיק את ההחייאה, כי ה־AED אמר שאין צורך בשוק.","ממשיך בהחייאה בהתאם להוראות ה־AED עד שהמכשיר מבקש שוב לעצור לצורך ניתוח, או עד שמתקיימת סיבה אחרת להפסיק.","מנתק את ה־AED ומחכה שהצוות הרפואי יגיע.","הופך את יורם על הצד וממתין לראות אם יחזור להכרה."],correct:1,explain:"אם ה־AED אינו ממליץ על שוק, ממשיכים בהחייאה בהתאם להוראותיו."}
+]}];
+
+let eventIndex=0,qIndex=0,correctCount=0,wrongCount=0;
+function start(){document.getElementById("intro").classList.add("hidden");document.getElementById("app").classList.remove("hidden");showEventIntro();}
+function showEventIntro(){let e=events[eventIndex];document.getElementById("story").innerHTML=`<div class="progress">אירוע ${eventIndex+1} מתוך ${events.length}</div><h2>${e.title}</h2><p>${e.intro}</p><button onclick="showQuestion()">התחל את האירוע</button>`;document.getElementById("feedback").innerHTML="";document.getElementById("choices").innerHTML="";}
+function showQuestion(){let e=events[eventIndex],q=e.questions[qIndex];document.getElementById("story").innerHTML=`<div class="progress">אירוע ${eventIndex+1} מתוך ${events.length} · החלטה ${qIndex+1} מתוך ${e.questions.length}</div><p>${q.text}</p>`;document.getElementById("feedback").innerHTML="";let c=document.getElementById("choices");c.innerHTML="";q.choices.forEach((x,i)=>{let b=document.createElement("button");b.innerHTML=x;b.onclick=()=>answer(i);c.appendChild(b);});}
+function answer(i){let e=events[eventIndex],q=e.questions[qIndex],bs=[...document.querySelectorAll("#choices button")];bs.forEach(b=>b.disabled=true);bs[q.correct].classList.add("green");if(i===q.correct){correctCount++;document.getElementById("feedback").innerHTML=`<div class="feedback ok"><b>✔️ נכון.</b><br>${q.explain}</div>`;}else{wrongCount++;bs[i].classList.add("red");document.getElementById("feedback").innerHTML=`<div class="feedback bad"><b>❌ לא נכון.</b><br>התשובה הנכונה מסומנת בירוק.</div>`;}let c=document.getElementById("choices"),n=document.createElement("button");n.textContent=qIndex<e.questions.length-1?"המשך":"סיום האירוע";n.onclick=()=>{qIndex++;if(qIndex<e.questions.length)showQuestion();else closeEvent();};c.appendChild(n);}
+function closeEvent(){let e=events[eventIndex];document.getElementById("story").innerHTML=`<h2>🟢 ${e.title} — האירוע הסתיים</h2><p>הצוות הרפואי מגיע וממשיך את הטיפול.</p>`;document.getElementById("feedback").innerHTML="";let c=document.getElementById("choices");c.innerHTML="";let b=document.createElement("button");b.textContent=eventIndex<events.length-1?"המשך לאירוע הבא":"המשך לסיכום";b.onclick=()=>{if(eventIndex<events.length-1){eventIndex++;qIndex=0;showEventIntro();}else showDebrief();};c.appendChild(b);}
+function showDebrief(){document.getElementById("app").classList.add("hidden");let d=document.getElementById("debrief");d.classList.remove("hidden");d.innerHTML=`<div class="badge">סיום רענון 06</div><h2>סיכום</h2><p><b>תוצאה:</b> ${correctCount} תשובות נכונות, ${wrongCount} תשובות שדרשו תיקון.</p><h3>מה לקחת איתך?</h3><ul class="summary"><li><b>כוויה:</b> להרחיק ממקור החום ולקרר במים זורמים. לא להשתמש בקרח או בחומרים ביתיים.</li><li>להסיר טבעת, שעון או פריט הדוק אם אפשר לעשות זאת בקלות לפני שמתפתחת נפיחות.</li><li>לא לפוצץ שלפוחיות, ולהעריך את גודל הכוויה, מיקומה וחומרתה.</li><li><b>התחשמלות:</b> קודם כול לוודא שהחשמל נותק ושהזירה בטוחה. לא נוגעים בנפגע לפני כן.</li><li>לאחר שהזירה בטוחה: לבדוק תגובה ונשימה. אם אין תגובה ואין נשימה תקינה — החייאה, מוקד חירום ו־AED.</li><li>בזמן ניתוח AED אף אחד לא נוגע בנפגע; אם אין שוק, ממשיכים בהחייאה לפי הוראות המכשיר.</li></ul><p class="small">רענון זה אינו מחליף הכשרת עזרה ראשונה, תרגול מעשי, נהלי המקום או הנחיות הצוות הרפואי ומוקד החירום.</p><a class="home" href="index.html">🏠 חזרה לתפריט הראשי</a>`;}
+</script>
+</body></html>

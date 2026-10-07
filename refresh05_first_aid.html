@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>רענון 05 — פרכוס ומצב של סוכר נמוך</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f4f6f8;color:#20252b;font-family:Arial,"Noto Sans Hebrew",sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:auto;padding:18px}
+.card{background:#fff;border-radius:18px;padding:24px;margin:14px 0;box-shadow:0 3px 14px #00000012}
+h1,h2{margin-top:0} h1{font-size:27px} h2{font-size:22px}
+.lead{font-size:18px}.quote{background:#f7f7f7;border-right:4px solid #999;padding:12px 16px;border-radius:8px}
+button{width:100%;border:0;border-radius:12px;padding:14px 16px;margin:8px 0;font-size:17px;cursor:pointer;background:#e9edf2;color:#17202a}
+button:hover{filter:brightness(.98)}
+button.correct{background:#d9f2df;border:2px solid #38a169}
+button.wrong{background:#f8d7da;border:2px solid #c53030}
+.feedback{padding:14px;border-radius:12px;margin-top:14px;font-size:17px}
+.ok{background:#eaf7ed;border:1px solid #7abb88}.bad{background:#fff0f0;border:1px solid #d66}
+.hidden{display:none}
+.progress{font-size:14px;color:#5c6670;margin-bottom:8px}
+.small{font-size:14px;color:#59636d}
+.green{background:#d9f2df!important;border:2px solid #38a169!important}
+.red{background:#f8d7da!important;border:2px solid #c53030!important}
+.summary li{margin:8px 0}
+.badge{display:inline-block;padding:4px 9px;border-radius:999px;background:#eef2f5;font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<section id="intro" class="card">
+  <div class="badge">רענון 05</div>
+  <h1>פרכוס ומצב של סוכר נמוך</h1>
+  <p class="lead">שני אירועים נפרדים. בכל אירוע תצטרך לקבל החלטות קצרות, כמו במצב אמיתי.</p>
+  <p>המטרה אינה לאבחן את האדם, אלא לזהות מצב חריג, למנוע פגיעה, להזעיק עזרה ולפעול בהתאם להכשרה ולנהלים.</p>
+  <button onclick="start()">התחל רענון</button>
+</section>
+
+<section id="app" class="card hidden">
+  <div id="story"></div>
+  <div id="feedback"></div>
+  <div id="choices"></div>
+</section>
+
+<section id="debrief" class="card hidden"></section>
+
+</div>
+
+<script>
+const events = [
+{
+ title:"אירוע 1 — הוא התחיל לפרכס",
+ intro:`אמצע יום העבודה.<br><br>
+אתה מלווה כמה דיירים לכיוון חדר האוכל.<br><br>
+אחד מהם, שנמצא קצת מאחור, נעצר פתאום.<br><br>
+אתה מסתובב אליו.<br><br>
+הוא נופל על הרצפה ומתחיל לפרכס.<br><br>
+יש סביבו כמה אנשים שנבהלים ומתקרבים.`,
+ questions:[
+ {text:"מה הדבר הראשון והחשוב ביותר שאתה עושה?", choices:[
+  "מנסה להחזיק אותו כדי לעצור את תנועות הגוף.",
+  "מכניס משהו לפה שלו כדי שלא ינשוך את הלשון.",
+  "מרחיק אנשים וחפצים שעלולים לפגוע בו, מגן על הראש שלו באמצעות משהו רך כמו כרית או שמיכה מקופלת, ונשאר לידו.",
+  "מנסה להושיב אותו כדי שלא יישאר על הרצפה."
+ ], correct:2, explain:"המטרה הראשונה היא למנוע פגיעה. מרחיקים חפצים מסוכנים ומגנים על הראש באמצעות משהו רך, בלי לרסן את תנועות הגוף."},
+ {text:"אחד העובדים שנמצא לידך אומר: \"תחזיק אותו חזק! שלא יזוז!\"<br><br>מה תעשה?", choices:[
+  "תחזיק את הידיים והרגליים שלו כדי למנוע את התנועות.",
+  "לא תרסן אותו. תמשיך להגן עליו מפגיעה ותוודא שיש סביבו מרחב בטוח.",
+  "תנסה להכניס כרית או בד לפה שלו כדי להגן על הלשון.",
+  "תנסה להעמיד אותו על הרגליים כשהתנועות נחלשות."
+ ], correct:1, explain:"אין לנסות לעצור את תנועות הפרכוס בכוח, ואין להכניס דבר לפה. ממשיכים להגן עליו מפגיעה."},
+ {text:"הפרכוס נמשך עוד כמה שניות. אתה ממשיך למדוד את הזמן. אחרי זמן קצר התנועות מפסיקות. הוא שוכב על הרצפה, נושם, אבל עדיין מבולבל ולא לגמרי מגיב.<br><br>מה נכון לעשות עכשיו?", choices:[
+  "לתת לו מים, כדי שיעזור לו להתאושש.",
+  "להשאיר אותו לבד לכמה דקות כדי שיירגע.",
+  "להישאר איתו, להשגיח על הנשימה ולהמשיך לפעול לפי המצב והנחיות מוקד החירום.",
+  "להושיב אותו מיד ולשאול אותו מה קרה."
+ ], correct:2, explain:"לאחר הפרכוס נשארים עם האדם, משגיחים על הנשימה ועל מצבו ופועלים לפי המצב והנחיות מוקד החירום."},
+ {text:"כעבור זמן קצר הוא מתחיל להתאושש ולמלמל:<div class='quote'>\"מה... מה קרה לי?\"</div><br>אתה לא יודע למה היה הפרכוס, ולכן אינך מאבחן אותו.<br><br>מה נכון לעשות?", choices:[
+  "לומר לו: \"זה היה התקף אפילפטי, הכול בסדר.\"",
+  "לומר לו שאתה לא יודע מה גרם לזה, להסביר שראית אותו מפרכס ושכבר הזעקת עזרה, ולהישאר איתו.",
+  "לתת לו משהו מתוק לשתות, כי אולי הסוכר שלו נמוך.",
+  "לומר לו לקום לאט וללכת לחדר האוכל כדי לנוח."
+ ], correct:1, explain:"לא מאבחנים את הסיבה לפרכוס. מתארים מה ראינו, מסבירים שהוזעקה עזרה ונשארים עם האדם."}
+ ]
+},
+{
+ title:"אירוע 2 — משהו לא בסדר איתו",
+ intro:`אחר הצהריים.<br><br>
+אחד הדיירים יושב בחדר המועדון.<br>
+אתה מבחין שהוא נראה מבולבל ולא רגיל.<br><br>
+הוא מזיע.<br><br>
+כשאתה מדבר אליו, הוא עונה בקושי:<div class='quote'>\"אני... לא יודע... משהו לא בסדר.\"</div><br>
+אתה יודע שהוא אדם עם סוכרת.`,
+ questions:[
+ {text:"מה הדבר הראשון שחשוב לעשות?", choices:[
+  "לתת לו מיד משהו מתוק לשתות.",
+  "לבדוק את מצבו ולוודא שהוא בהכרה ויכול לבלוע בבטחה, ובמקביל לפעול לפי הנהלים וההנחיות הרפואיות.",
+  "להשכיב אותו ולחכות כמה דקות לראות אם זה עובר.",
+  "לבקש ממנו ללכת בעצמו לחדר האוכל לאכול משהו."
+ ], correct:1, explain:"לפני שנותנים משהו דרך הפה, צריך לוודא שהאדם בהכרה ויכול לבלוע בבטחה. פועלים בהתאם להכשרה ולנהלים."},
+ {text:"הוא עדיין בהכרה. אתה מדבר אליו והוא עונה. הוא מצליח לבלוע.<br><br>בהתאם לנהלים ולמה שנלמד בהכשרה שלו, אתה נותן לו מקור מהיר של סוכר. כעבור כמה דקות הוא מתחיל להיראות טוב יותר.<br><br>אבל מה אם המצב היה שונה?<br><br>אתה מגיע אליו, והוא <b>מבולבל מאוד ולא מצליח לבלוע בבטחה</b>. מה תעשה?", choices:[
+  "תיתן לו בכל זאת משקה מתוק, אבל לאט ובכמויות קטנות.",
+  "לא תיתן לו שום דבר דרך הפה, תזעיק עזרה רפואית ותשגיח עליו עד להגעת העזרה.",
+  "תכניס מעט סוכר לפה שלו כדי שייספג.",
+  "תחכה כמה דקות. אולי הוא יתאושש בעצמו."
+ ], correct:1, explain:"אם האדם אינו יכול לבלוע בבטחה, לא נותנים שום דבר דרך הפה. מזעיקים עזרה רפואית ומשגיחים עליו."},
+ {text:"המצב שלו מחמיר. הוא מפסיק להגיב אליך. אתה בודק אותו ורואה שהוא <b>נושם באופן תקין</b>.<br><br>מה נכון לעשות?", choices:[
+  "לתת לו משקה מתוק בכל זאת, כי ידוע שהוא סוכרתי.",
+  "להשכיב אותו על הצד בתנוחת התאוששות, להמשיך להשגיח על הנשימה ולהמתין לעזרה רפואית.",
+  "להושיב אותו ולנסות לגרום לו להתעורר.",
+  "להשאיר אותו בתנוחה שבה מצאת אותו ולחכות."
+ ], correct:1, explain:"אדם מחוסר הכרה אך נושם באופן תקין אינו מקבל דבר דרך הפה. משכיבים בתנוחת התאוששות ומשגיחים על הנשימה עד להגעת העזרה."}
+ ]
+}
+];
+
+let eventIndex=0, qIndex=0, correctCount=0, wrongCount=0;
+let answers=[];
+
+function start(){
+ document.getElementById('intro').classList.add('hidden');
+ document.getElementById('app').classList.remove('hidden');
+ showEventIntro();
+}
+function showEventIntro(){
+ const e=events[eventIndex];
+ document.getElementById('feedback').innerHTML='';
+ document.getElementById('choices').innerHTML='';
+ document.getElementById('story').innerHTML=`<div class="progress">אירוע ${eventIndex+1} מתוך ${events.length}</div><h2>${e.title}</h2><p>${e.intro}</p><button onclick="showQuestion()">התחל את האירוע</button>`;
+}
+function showQuestion(){
+ const e=events[eventIndex], q=e.questions[qIndex];
+ document.getElementById('story').innerHTML=`<div class="progress">אירוע ${eventIndex+1} מתוך ${events.length} · החלטה ${qIndex+1} מתוך ${e.questions.length}</div><p>${q.text}</p>`;
+ document.getElementById('feedback').innerHTML='';
+ const c=document.getElementById('choices'); c.innerHTML='';
+ q.choices.forEach((choice,i)=>{
+  const b=document.createElement('button'); b.textContent=choice;
+  b.onclick=()=>answer(i);
+  c.appendChild(b);
+ });
+}
+function answer(i){
+ const e=events[eventIndex], q=e.questions[qIndex];
+ const btns=[...document.querySelectorAll('#choices button')];
+ btns.forEach(b=>b.disabled=true);
+ btns[q.correct].classList.add('green');
+ if(i===q.correct){
+   correctCount++;
+   answers.push({event:eventIndex,q:qIndex,selected:i,correct:true});
+   document.getElementById('feedback').innerHTML=`<div class="feedback ok"><b>✔️ נכון.</b><br>${q.explain}</div>`;
+ }else{
+   wrongCount++;
+   btns[i].classList.add('red');
+   answers.push({event:eventIndex,q:qIndex,selected:i,correct:false});
+   document.getElementById('feedback').innerHTML=`<div class="feedback bad"><b>❌ לא נכון.</b><br>התשובה הנכונה מסומנת בירוק.</div>`;
+ }
+ const c=document.getElementById('choices');
+ const next=document.createElement('button');
+ next.textContent=(qIndex<e.questions.length-1)?"המשך":"סיום האירוע";
+ next.onclick=()=>{qIndex++; if(qIndex<e.questions.length) showQuestion(); else closeEvent();};
+ c.appendChild(next);
+}
+function closeEvent(){
+ const e=events[eventIndex];
+ document.getElementById('story').innerHTML=`<h2>🟢 ${e.title} — האירוע הסתיים</h2>
+ <p>הצוות הרפואי מגיע וממשיך את הטיפול.</p>
+ <p>מה שחשוב היה לעשות בשלב הראשון: לזהות את המצב, למנוע פגיעה, להזעיק עזרה ולפעול בהתאם להכשרה ולנהלים.</p>`;
+ document.getElementById('feedback').innerHTML='';
+ const c=document.getElementById('choices'); c.innerHTML='';
+ const b=document.createElement('button');
+ b.textContent=eventIndex<events.length-1?'המשך לאירוע הבא':'המשך לסיכום';
+ b.onclick=()=>{if(eventIndex<events.length-1){eventIndex++;qIndex=0;showEventIntro()}else showDebrief()};
+ c.appendChild(b);
+}
+function showDebrief(){
+ document.getElementById('app').classList.add('hidden');
+ const d=document.getElementById('debrief'); d.classList.remove('hidden');
+ d.innerHTML=`<div class="badge">סיום רענון 05</div>
+ <h2>סיכום</h2>
+ <p><b>תוצאה:</b> ${correctCount} תשובות נכונות, ${wrongCount} תשובות שדרשו תיקון.</p>
+ <h3>מה לקחת איתך?</h3>
+ <ul class="summary">
+ <li><b>בפרכוס:</b> מגנים על האדם מפגיעה, מרחיקים חפצים, מגנים על הראש באמצעות משהו רך, לא מרסנים ולא מכניסים דבר לפה, ומודדים זמן.</li>
+ <li><b>לאחר פרכוס:</b> נשארים עם האדם, משגיחים על הנשימה ועל מצבו ופועלים לפי ההנחיות.</li>
+ <li><b>בחשד לירידת סוכר:</b> סוכר דרך הפה רק כאשר האדם בהכרה ויכול לבלוע בבטחה, ובהתאם להכשרה ולנהלים.</li>
+ <li><b>אם אינו יכול לבלוע או מחוסר הכרה:</b> לא נותנים דבר דרך הפה ומזעיקים עזרה רפואית.</li>
+ <li><b>מחוסר הכרה אך נושם תקין:</b> תנוחת התאוששות והשגחה על הנשימה עד להגעת העזרה.</li>
+ <li>בכל האירועים: העובד אינו צריך לאבחן את הסיבה. הוא צריך לזהות מצב חריג, לפעול בבטחה ולהעביר מידע ברור לצוות הרפואי.</li>
+ </ul>
+ <p class="small">רענון זה אינו מחליף הכשרת עזרה ראשונה, תרגול מעשי, נהלי המקום או הנחיות צוות רפואי/מוקד חירום.</p><a class="home" href="index.html">🏠 חזרה לתפריט הראשי</a>`;
+}
+</script>
+</body>
+</html>

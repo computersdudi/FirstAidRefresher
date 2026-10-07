@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>רענון 10 — שברים ופגיעות גפיים</title>
+<style>
+  :root{
+    --bg1:#eef7ff; --bg2:#f7f3ff; --card:#ffffff; --text:#243247;
+    --muted:#65748b; --blue:#3478f6; --green:#22a06b; --red:#df4f5f;
+    --gold:#f2b84b; --purple:#7657d9; --border:#dce6f2;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; font-family:Arial,"Noto Sans Hebrew",sans-serif;
+    color:var(--text);
+    background:linear-gradient(135deg,var(--bg1),var(--bg2));
+    min-height:100vh; line-height:1.65;
+  }
+  .wrap{max-width:760px;margin:auto;padding:20px 14px 40px}
+  .card{
+    background:rgba(255,255,255,.96); border:1px solid var(--border);
+    border-radius:24px; padding:24px; margin:14px 0;
+    box-shadow:0 10px 28px rgba(50,80,120,.10);
+  }
+  h1{margin:0 0 8px;font-size:30px;color:#315aa8}
+  h2{margin:0 0 14px;font-size:23px;color:#4c55a8}
+  h3{margin:0 0 10px;font-size:20px}
+  .subtitle{color:var(--muted);font-size:17px}
+  .badge{
+    display:inline-block;background:#e8f1ff;color:#2d63bd;
+    border-radius:999px;padding:6px 12px;font-weight:bold;margin-bottom:12px
+  }
+  .scene{
+    background:linear-gradient(135deg,#fff9e8,#fff);
+    border-right:6px solid var(--gold); padding:17px 18px;
+    border-radius:16px; margin:15px 0; font-size:18px;
+  }
+  .quote{
+    background:#f1edff;border-radius:14px;padding:12px 16px;
+    color:#51419a;font-weight:bold;margin:12px 0;
+  }
+  .question{
+    background:#f5f8fc;border:1px solid var(--border);
+    border-radius:18px;padding:18px;margin-top:18px
+  }
+  .options{display:grid;gap:10px;margin-top:14px}
+  button{
+    width:100%; border:0; border-radius:14px; padding:14px 16px;
+    font-size:17px; font-family:inherit; cursor:pointer;
+    background:#eaf2ff; color:#214d91; text-align:right;
+    transition:.15s;
+  }
+  button:hover{transform:translateY(-1px);filter:brightness(.98)}
+  button:disabled{cursor:default;opacity:1}
+  .correct-answer{background:#dff5e9!important;color:#176a46!important;border:2px solid #6fc79e}
+  .wrong-answer{background:#fde4e7!important;color:#a32638!important;border:2px solid #ed8d99}
+  .feedback{
+    display:none;margin-top:14px;border-radius:15px;padding:13px 15px;font-weight:bold
+  }
+  .feedback.ok{background:#e3f7ec;color:#176a46}
+  .feedback.bad{background:#fde8eb;color:#9e2939}
+  .next{
+    display:none;margin-top:14px;background:linear-gradient(135deg,#5b8def,#7657d9);
+    color:white;text-align:center
+  }
+  .hero{
+    text-align:center;padding:30px 20px;
+    background:linear-gradient(135deg,#e8f3ff,#f4ecff)
+  }
+  .icon{font-size:54px;margin-bottom:6px}
+  .start{background:linear-gradient(135deg,#3478f6,#7657d9);color:white;text-align:center;font-weight:bold}
+  .closure{
+    background:linear-gradient(135deg,#e8f8f0,#eef8ff);
+    border:1px solid #cde8da
+  }
+  .summary-item{
+    background:#f7f9fc;border-right:5px solid var(--blue);
+    padding:12px 14px;border-radius:12px;margin:9px 0
+  }
+  .score{
+    display:none;text-align:center;background:#fff8df;border:1px solid #f1d88d
+  }
+  .small{font-size:14px;color:var(--muted)}
+  .hidden{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <section id="intro" class="card hero">
+    <div class="icon">🦴</div>
+    <h1>רענון 10</h1>
+    <h2>שברים ופגיעות גפיים</h2>
+    <p class="subtitle">שני אירועים קצרים. החלטות פשוטות. דגש על מה לעשות — ומה לא לעשות.</p>
+    <button class="start" onclick="start()">▶️ מתחילים</button>
+  </section>
+
+  <main id="content" class="hidden">
+
+    <section id="event1" class="card">
+      <span class="badge">אירוע 1 מתוך 2</span>
+      <h2>נפילה ופגיעה ביד</h2>
+      <div class="scene">
+        אתה נמצא בחדר הפעילות.<br><br>
+        אחד הדיירים, <b>אורי</b>, קם מהכיסא כדי לגשת לשולחן.<br><br>
+        פתאום הוא מאבד שיווי משקל ונופל קדימה.<br><br>
+        הוא מספיק להושיט את היד כדי לבלום את הנפילה.<br>
+        אתה ניגש אליו.<br><br>
+        אורי ער ומדבר איתך, אבל הוא מחזיק את היד קרוב לגוף ואומר:
+        <div class="quote">״אוי... כואב לי מאוד ביד.״</div>
+        אתה רואה שמתחילה להופיע <b>נפיחות באזור שורש כף היד</b>.
+      </div>
+
+      <div class="question">
+        <h3>❓ החלטה 1</h3>
+        <p>מה הדבר המתאים ביותר לעשות עכשיו?</p>
+        <div class="options">
+          <button data-correct="false" onclick="answer(this,1,1)">א. לבקש מאורי להזיז את היד ולבדוק אם הוא עדיין מסוגל להשתמש בה.</button>
+          <button data-correct="true" onclick="answer(this,1,1)">ב. להשאיר את היד במנח שנוח לו, להימנע מתנועה מיותרת ולהעריך את מצבו.</button>
+          <button data-correct="false" onclick="answer(this,1,1)">ג. ליישר בעדינות את היד כדי לראות אם היא חזרה למקום.</button>
+          <button data-correct="false" onclick="answer(this,1,1)">ד. לעסות את האזור כדי להפחית את הנפיחות.</button>
+        </div>
+        <div class="feedback"></div>
+        <button class="next" onclick="showStage('e1b')">המשך ▶</button>
+      </div>
+
+      <div id="e1b" class="hidden">
+        <div class="scene">
+          אתה משאיר את היד במנח שנוח לאורי.<br><br>
+          כעבור רגע אתה שם לב שהנפיחות גדלה, ואורי אומר שהכאב התחזק.<br><br>
+          כעת אתה רואה שהאזור <b>נראה מעט עקום</b> ביחס ליד השנייה.
+        </div>
+        <div class="question">
+          <h3>❓ החלטה 2</h3>
+          <p>מה נכון לעשות עכשיו?</p>
+          <div class="options">
+            <button data-correct="false" onclick="answer(this,2,1)">א. לנסות ליישר את היד בעדינות.</button>
+            <button data-correct="false" onclick="answer(this,2,1)">ב. לבקש מאורי להזיז את שורש כף היד כדי לבדוק מה בדיוק נפגע.</button>
+            <button data-correct="true" onclick="answer(this,2,1)">ג. למנוע תנועה מיותרת של היד, לתמוך בה במנח שבו היא נמצאת ולהזעיק עזרה רפואית בהתאם למצב ולנוהל.</button>
+            <button data-correct="false" onclick="answer(this,2,1)">ד. להמתין מספר דקות ולראות אם הנפיחות יורדת.</button>
+          </div>
+          <div class="feedback"></div>
+          <button class="next" onclick="showStage('e1c')">המשך ▶</button>
+        </div>
+      </div>
+
+      <div id="e1c" class="hidden">
+        <div class="scene">
+          אתה ממשיך להשגיח עליו.<br><br>
+          אורי אומר שהאצבעות מרגישות לו <b>״קצת מוזר״</b>.<br><br>
+          אתה מסתכל על היד ורואה שהאצבעות עדיין נעות מעט, אבל אורי מתלונן על תחושה לא רגילה.
+        </div>
+        <div class="question">
+          <h3>❓ החלטה 3</h3>
+          <p>מה חשוב לעשות עכשיו?</p>
+          <div class="options">
+            <button data-correct="false" onclick="answer(this,3,1)">א. לבקש ממנו להזיז את האצבעות שוב ושוב כדי לוודא שהן עובדות.</button>
+            <button data-correct="false" onclick="answer(this,3,1)">ב. לעסות את כף היד כדי לשפר את זרימת הדם.</button>
+            <button data-correct="true" onclick="answer(this,3,1)">ג. לשים לב לשינויים בצבע, בתחושה ובתנועה של האצבעות, ולהעביר את המידע לצוות הרפואי.</button>
+            <button data-correct="false" onclick="answer(this,3,1)">ד. לנסות להחזיר את היד למנח ישר לפני שמגיע הצוות הרפואי.</button>
+          </div>
+          <div class="feedback"></div>
+          <button class="next" onclick="closeEvent(1)">סיום האירוע ▶</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="event1closure" class="card closure hidden">
+      <h2>✅ סוף אירוע 1</h2>
+      <p>
+        כעבור זמן קצר מגיע <b>הצוות הרפואי</b>.<br><br>
+        אתה מוסר להם מה קרה, איך אורי נפל ומה השתנה מאז הפגיעה.<br><br>
+        הצוות הרפואי בודק אותו ולוקח את הטיפול מכאן.
+      </p>
+      <button class="next" style="display:block" onclick="goEvent2()">המשך לאירוע הבא ▶</button>
+    </section>
+
+    <section id="event2" class="card hidden">
+      <span class="badge">אירוע 2 מתוך 2</span>
+      <h2>פגיעה ברגל לאחר נפילה</h2>
+      <div class="scene">
+        אתה נמצא בחצר.<br><br>
+        אחד הדיירים, <b>דניאל</b>, הולך לכיוון פינת הישיבה.<br><br>
+        פתאום הוא מועד על שפת המדרכה ונופל.<br><br>
+        אתה ניגש אליו.<br>
+        הוא בהכרה ומדבר איתך.<br><br>
+        הוא מנסה לקום, אבל מיד אומר:
+        <div class="quote">״אני לא מצליח לעמוד... כואב לי מאוד ברגל.״</div>
+        אתה רואה שהוא מחזיק את הרגל ולא מנסה להעמיס עליה משקל.
+      </div>
+
+      <div class="question">
+        <h3>❓ החלטה 1</h3>
+        <p>מה נכון לעשות?</p>
+        <div class="options">
+          <button data-correct="false" onclick="answer(this,4,2)">א. לעזור לו לקום לאט, כדי לבדוק אם הוא מסוגל ללכת.</button>
+          <button data-correct="true" onclick="answer(this,4,2)">ב. לבקש ממנו להישאר במקומו, להימנע מהעמסה על הרגל ולהזעיק עזרה בהתאם למצב.</button>
+          <button data-correct="false" onclick="answer(this,4,2)">ג. להזיז את הרגל בעדינות כדי לבדוק איפה בדיוק כואב.</button>
+          <button data-correct="false" onclick="answer(this,4,2)">ד. לבקש ממנו לנסות ללכת כמה צעדים.</button>
+        </div>
+        <div class="feedback"></div>
+        <button class="next" onclick="showStage('e2b')">המשך ▶</button>
+      </div>
+
+      <div id="e2b" class="hidden">
+        <div class="scene">
+          דניאל נשאר במקום.<br><br>
+          כעבור רגע הוא אומר:<br>
+          <div class="quote">״אני מרגיש שהרגל ממש לא יציבה.״</div>
+          אתה מסתכל ורואה שהאזור סביב הקרסול מתחיל להתנפח.
+        </div>
+        <div class="question">
+          <h3>❓ החלטה 2</h3>
+          <p>מה נכון לעשות עכשיו?</p>
+          <div class="options">
+            <button data-correct="false" onclick="answer(this,5,2)">א. לנסות להחזיר את הקרסול למנח ישר.</button>
+            <button data-correct="false" onclick="answer(this,5,2)">ב. לעסות את האזור כדי להפחית את הנפיחות.</button>
+            <button data-correct="true" onclick="answer(this,5,2)">ג. להשאיר את הרגל במנח שבו נמצאה, להימנע מתנועה מיותרת ולהמתין להנחיות/עזרה רפואית.</button>
+            <button data-correct="false" onclick="answer(this,5,2)">ד. לבקש מדניאל להזיז את הקרסול כדי לבדוק אם הוא עדיין יכול לעשות זאת.</button>
+          </div>
+          <div class="feedback"></div>
+          <button class="next" onclick="showStage('e2c')">המשך ▶</button>
+        </div>
+      </div>
+
+      <div id="e2c" class="hidden">
+        <div class="scene">
+          אתה נשאר ליד דניאל וממשיך להשגיח עליו.<br><br>
+          הוא אומר שהכאב מתחזק.<br><br>
+          אתה שם לב שהכף רגל נראית <b>חיוורת יותר מהרגל השנייה</b>.
+        </div>
+        <div class="question">
+          <h3>❓ החלטה 3</h3>
+          <p>מה חשוב לעשות עכשיו?</p>
+          <div class="options">
+            <button data-correct="false" onclick="answer(this,6,2)">א. לעסות את כף הרגל כדי לעודד זרימת דם.</button>
+            <button data-correct="false" onclick="answer(this,6,2)">ב. לבקש ממנו להזיז את הרגל שוב ושוב.</button>
+            <button data-correct="true" onclick="answer(this,6,2)">ג. לעדכן מיד את הצוות הרפואי במצב החדש ולהמשיך להשגיח עליו בלי להזיז את הרגל שלא לצורך.</button>
+            <button data-correct="false" onclick="answer(this,6,2)">ד. להרים את הרגל ולנסות לשנות את המנח שלה.</button>
+          </div>
+          <div class="feedback"></div>
+          <button class="next" onclick="closeEvent(2)">סיום האירוע ▶</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="event2closure" class="card closure hidden">
+      <h2>✅ סוף אירוע 2</h2>
+      <p>
+        הצוות הרפואי מגיע.<br><br>
+        אתה מוסר להם מה קרה, איך דניאל נפל, מה הוא הרגיש ומה השתנה מאז.<br><br>
+        הצוות הרפואי בודק אותו ולוקח את הטיפול מכאן.
+      </p>
+      <button class="next" style="display:block" onclick="showSummary()">עבור לסיכום הרענון ▶</button>
+    </section>
+
+    <section id="summary" class="card hidden">
+      <div class="badge">סיכום רענון 10</div>
+      <h2>🧠 מה חשוב לזכור?</h2>
+
+      <div class="summary-item"><b>פגיעה משמעותית בגפה:</b> לא מנסים ליישר או “להחזיר למקום” את האיבר. נמנעים מתנועה מיותרת ומשאירים אותו במנח שבו נמצא/שנוח לנפגע.</div>
+      <div class="summary-item"><b>אין צורך לבדוק בכוח:</b> לא מבקשים מהנפגע ללכת או להזיז שוב ושוב את האזור הפגוע כדי “לראות אם הוא עובד”.</div>
+      <div class="summary-item"><b>שינוי בתחושה, בצבע או בתנועה:</b> זה מידע חשוב שצריך להעביר לצוות הרפואי.</div>
+      <div class="summary-item"><b>המצב משתנה?</b> מעדכנים את הצוות הרפואי וממשיכים להשגיח, בלי לבצע פעולות שעלולות להחמיר את הפגיעה.</div>
+
+      <div id="score" class="card score"></div>
+
+      <p class="small">
+        הרענון נועד לחיזוק ידע וקבלת החלטות. הוא אינו מחליף הכשרת עזרה ראשונה, נהלי מקום העבודה או הנחיות של מוקד חירום/גורם רפואי.
+      </p>
+      <button class="start" onclick="location.reload()">🔄 רענון נוסף</button>
+      <button style="margin-top:10px;background:#eef2f7;color:#40536c" href="index.html">🏠 חזרה לתפריט הראשי</a>
+    </section>
+
+  </main>
+</div>
+
+<script>
+let correct=0, answered=0;
+function start(){
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('content').classList.remove('hidden');
+}
+function answer(btn,q,eventNo){
+  const box=btn.parentElement;
+  if(box.dataset.done==='1') return;
+  box.dataset.done='1';
+  answered++;
+  const isCorrect=btn.dataset.correct==='true';
+  const buttons=[...box.querySelectorAll('button')];
+  buttons.forEach(b=>b.disabled=true);
+  const correctBtn=buttons.find(b=>b.dataset.correct==='true');
+  const fb=box.parentElement.querySelector('.feedback');
+  if(isCorrect){
+    correct++;
+    btn.classList.add('correct-answer');
+    fb.className='feedback ok';
+    fb.innerHTML='✔️ נכון';
+  }else{
+    btn.classList.add('wrong-answer');
+    correctBtn.classList.add('correct-answer');
+    fb.className='feedback bad';
+    fb.innerHTML='❌ לא נכון — <span style="color:#176a46">התשובה הנכונה מסומנת בירוק.</span>';
+  }
+  fb.style.display='block';
+  const next=box.parentElement.querySelector('.next');
+  if(next) next.style.display='block';
+}
+function showStage(id){
+  const el=document.getElementById(id);
+  el.classList.remove('hidden');
+  el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function closeEvent(n){
+  document.getElementById('event'+n).classList.add('hidden');
+  document.getElementById('event'+n+'closure').classList.remove('hidden');
+  document.getElementById('event'+n+'closure').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function goEvent2(){
+  document.getElementById('event1closure').classList.add('hidden');
+  document.getElementById('event2').classList.remove('hidden');
+  document.getElementById('event2').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function showSummary(){
+  document.getElementById('event2closure').classList.add('hidden');
+  document.getElementById('summary').classList.remove('hidden');
+  const score=document.getElementById('score');
+  score.style.display='block';
+  score.innerHTML='<b>התוצאה שלך:</b><br>'+correct+' תשובות נכונות מתוך '+answered+'.<br><span class="small">המטרה היא לזהות מה דורש רענון — לא לקבל ציון.</span>';
+  score.scrollIntoView({behavior:'smooth',block:'start'});
+}
+</script>
+</body>
+</html>
